@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <script type="application/javascript" th:src="@{/js/validationCommon.js}"></script>
+    <script type="application/javascript" th:src="@{/js/validationPlayerTeamForm.js}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamLider - Edit</title>
+</head>
+<body>
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+        <li><a th:href="@{?lang=en}">
+            <img th:src="@{/images/US.png}" width="60"height="60"/>
+        </a></li>
+        <li><a th:href="@{?lang=pl}">
+            <img th:src="@{/images/PL.png}" width="60"height="60"/>
+        </a></li>
+    </ul>
+    <img src="/images/logo2.png" alt="TeamLider Logo " width="150" height="150">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap"
+          rel="stylesheet">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" th:text="#{lang.li.home}"></a></li>
+        <li><a href="/players" th:text="#{lang.li.players}"></a></li>
+        <li><a href="/teams" th:text="#{lang.li.teams}"></a></li>
+        <li><a href="/assigntos"class="active" th:text="#{lang.li.assignsto}"></a></li>
+        <!--<li><a href="/login">Zaloguj się</a></li>-->
+        <li><a href="javascript: document.logoutForm.submit()" role="menuitem" th:text="#{lang.li.logout}" sec:authorize="isAuthenticated()"></a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form> </li>
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{assign.edit}"></h2>
+    <span hidden th:text="#{error.required}" id="filedrequired"></span>
+    <span hidden th:text="#{error.forms}" id="errorForms"></span>
+    <span hidden th:text="#{error.size.shirt}" id="errorSizeShirt"></span>
+    <span hidden th:text="#{error.notFuture}" id="errorNoFuture"></span>
+    <span hidden th:text="#{error.afterDate}" id="errorAfterDate"></span>
+    <form class="form" th:object="${assignto}" th:action="@{/assignto/update/{idPlayer}/{idTeam}(idPlayer=${assignto.getPlayer().getIdPlayer()},idTeam=${assignto.getTeam().getIdTeam()})}"
+          method="post" novalidate onsubmit="return validateForm();">
+        <!--<div class="form-group">-->
+        <label for="chosePlayer"><span th:text="#{assign.chooseplayer}"></span><abbr>*</abbr></label>
+        <select name="chosePlayer" id="chosePlayer" th:field="*{player}">
+            <!--<option value="Name1" selected disabled>Jan Kowalski</option>-->
+            <option th:value="${assignto.getPlayer().getIdPlayer()}" th:text="${assignto.getPlayer().getFirstName()+' '+assignto.getPlayer().getLastName()}"
+                    th:selected="${assignto.getPlayer().getIdPlayer()}" disabled></option>
+        </select>
+        <span id="errorChosePlayer" class="errors-text"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="choseTeam"><span th:text="#{assign.chooseteam}"></span><abbr>*</abbr></label>
+        <select name="choseTeam" id="choseTeam" th:field="*{team}">
+            <!--<option value="Team1" selected disabled>G2</option>-->
+            <option th:value="${assignto.getTeam().getIdTeam()}" th:text="${assignto.getTeam().getTeamName()}"
+                    th:selected="${assignto.getTeam().getIdTeam()}" disabled></option>
+        </select>
+        <span id="errorChoseTeam" class="errors-text"></span>
+        <!-- </div>-->
+        <!--<div class="form-group">-->
+        <label for="numOnShirt"><span th:text="#{assign.shirt}"></span><abbr>*</abbr></label>
+        <input type="number" th:if="${#fields.hasErrors('numOfShirt')!=true}" name="numOnShirt" id="numOnShirt"
+               placeholder="od 1 do 100" th:field="*{numOfShirt}"/>
+        <input type="number" th:if="${#fields.hasErrors('numOfShirt')}" class="error-input" name="numOnShirt"
+               id="numOnShirt1" placeholder="od 1 do 100" th:field="*{numOfShirt}"/>
+        <span id="errorNumOnShirt" class="errors-text" th:if="${#fields.hasErrors('numOfShirt')!=true}"
+              th:value="${default}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('numOfShirt')}" th:errors="*{numOfShirt}"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="dateFrom"><span th:text="#{assign.dateform}"></span><abbr>*</abbr></label>
+        <input type="date" th:if="${#fields.hasErrors('dateFrom')!=true}" name="dateFrom" id="dateFrom" th:field="*{dateFrom}"pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+        <input type="date" th:if="${#fields.hasErrors('dateFrom')}" name="dateFrom" id="dateFrom1" class="error-input" th:field="*{dateFrom}"pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+        <span id="errorDateFrom" class="errors-text" th:if="${#fields.hasErrors('dateFrom')!=true}" th:value="${default}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('dateFrom')}" th:errors="*{dateFrom}"></span>
+        <!-- </div>-->
+        <!--<div class="form-group">-->
+        <label for="dateTo"><span th:text="#{assign.dateto}"></span><abbr>*</abbr></label>
+        <input type="date" th:if="${#fields.hasErrors('dateTo')!=true}" name="dateTo" id="dateTo" th:field="*{dateTo}"/>
+        <input type="date" th:if="${#fields.hasErrors('dateTo')}" name="dateTo" id="dateTo1" class="error-input" th:field="*{dateTo}"/>
+        <span id="errorDateTo" class="errors-text" th:if="${#fields.hasErrors('dateTo')!=true}"th:value="${default}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('dateTo')}" th:errors="*{dateTo}"></span>
+        <!--</div>-->
+
+        <div class="form-buttons">
+            <input class="form-button-submit" type="submit" th:value="#{action.add}"/>
+            <p id="errorsSummary" class="errors-text"></p>
+           <!-- <span class="errors-text" th:each="error : ${errorFlash}">
+                <div>
+                <span th:text="${error}"></span>
+                    </div>
+            </span>-->
+            <a class="form-button-cancel" href="/assigntos" th:text="#{action.cancle}"></a>
+        </div>
+    </form>
+</main>
+
+<footer>
+    <p>Kacper Padarz s18535</p>
+</footer>
+</body>
+</html>

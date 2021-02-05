@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+        <li><a th:href="@{?lang=en}">
+            <img th:src="@{/images/US.png}" width="60"height="60"/>
+        </a></li>
+        <li><a th:href="@{?lang=pl}">
+            <img th:src="@{/images/PL.png}" width="60"height="60"/>
+        </a></li>
+    </ul>
+    <img src="images/logo2.png" alt="TeamLider Logo " width="150" height="150">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap"
+          rel="stylesheet">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" th:text="#{lang.home}"></a></li>
+        <li><a href="/players" sec:authorize="hasAnyAuthority('USER','ADMIN')">Gracze</a></li>
+        <li><a href="/teams" sec:authorize="hasAnyAuthority('USER','ADMIN')">Drużyny</a></li>
+        <li><a href="/assigntos" sec:authorize="hasAnyAuthority('USER','ADMIN')">Zawodnicy w drużynie</a></li>
+        <li><a href="/sign_up" th:text="#{lang.li.rejestartion}"></a></li>
+        <li><a href="/login" class="active" th:text="#{lang.li.sig_up}"></a></li>
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{lang.sign_up.h1}"></h2>
+    <form class="form" th:action="@{/login}" method="post">
+
+
+        <label for="username" th:text="#{lang.sign_up.login}"><abbr>*</abbr></label>
+        <input type="text" id="username" name="username" autofocus="autofocus" />
+        <span id="errorUsername" class="errors-text"></span>
+
+        <label for="password" th:text="#{lang.sign_up.paswword}"><abbr>*</abbr></label>
+        <input type="password" id="password" name="password" />
+        <span id="errorPassword" class="errors-text"></span>
+
+       <!-- <label for="checkpassword">Powtórz hasło:<abbr>*</abbr></label>
+        <input type="password" id="checkpassword" name="password" placeholder="Powtórz hasło"/>
+        <span id="errorCheckPassword" class="errors-text"></span>-->
+
+
+        <div class="form-buttons">
+            <input class="form-button-submit" type="submit" th:value="#{lang.li.sig_up}"/>
+            <p id="errorsSummary" class="errors-text"></p>
+            <span class="errors-text" th:if="${param.error}" th:text="#{error.invalidlogin}"></span>
+            <span class="errors-text" th:if="${param.logout}" >You have been logged out</span>
+            <!--<span class="errors-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+        </div>
+    </form>
+
+</main>
+
+<footer>
+    <p>Kacper Padarz s18535</p>
+</footer>
+</body>
+</html>

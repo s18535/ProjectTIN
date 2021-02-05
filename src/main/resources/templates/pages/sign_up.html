@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaloguj sie</title>
+</head>
+<body>
+
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+        <li><a th:href="@{?lang=en}">
+            <img th:src="@{/images/US.png}" width="60"height="60"/>
+        </a></li>
+        <li><a th:href="@{?lang=pl}">
+            <img th:src="@{/images/PL.png}" width="60"height="60"/>
+        </a></li>
+    </ul>
+    <img src="images/logo2.png" alt="TeamLider Logo " width="150" height="150">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap"
+          rel="stylesheet">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" th:text="#{lang.home}"></a></li>
+        <li><a href="/players" sec:authorize="hasAnyAuthority('USER','ADMIN')">Gracze</a></li>
+        <li><a href="/teams" sec:authorize="hasAnyAuthority('USER','ADMIN')">Drużyny</a></li>
+        <li><a href="/assigntos" sec:authorize="hasAnyAuthority('USER','ADMIN')">Zawodnicy w drużynie</a></li>
+        <li><a href="/sign_up" class="active" th:text="#{lang.li.rejestartion}"></a></li>
+        <li><a href="/login" th:text="#{lang.li.sig_up}"></a></li>
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{register.register}"></h2>
+    <form class="form" th:object="${user}" th:action="@{/sign_up}" method='POST'>
+        <label name="username"><span th:text="#{register.login}"></span><abbr>*</abbr></label>
+        <input type="text" th:if="${#fields.hasErrors('username')!=true}" name="username" id="username" th:placeholder="#{placeholder.login.and.password}" th:field="*{username}">
+        <input class="error-input" type="text" th:if="${#fields.hasErrors('username')}" name="username" id="username1" th:placeholder="#{placeholder.login.and.password}" th:field="*{username}">
+        <span id="errorUsername" class="errors-text" th:if="${#fields.hasErrors('username')!=true}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+
+        <label><span th:text="#{register.password}"></span><abbr>*</abbr></label>
+        <input type="password" th:if="${#fields.hasErrors('password')!=true}" name="password" id="password" th:placeholder="#{placeholder.login.and.password}" th:field="*{password}">
+        <input class="error-input" type="password"th:if="${#fields.hasErrors('password')}" name="password" id="password1" th:placeholder="#{placeholder.login.and.password}" th:field="*{password}">
+        <span id="errorPassword" class="errors-text" th:if="${#fields.hasErrors('password')!=true}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+
+        <label for="checkpassword"><span th:text="#{register.checkpasswrd}"></span><abbr>*</abbr></label>
+        <input type="password" th:if="${#fields.hasErrors('checkPassword')!=true}" name="checkPassword" id="checkPassword" th:placeholder="#{placeholder.checkpassword}" th:field="*{checkPassword}"/>
+        <input class="error-input" type="password" th:if="${#fields.hasErrors('checkPassword')}" name="checkPassword" id="checkPassword1" th:placeholder="#{placeholder.checkpassword}" th:field="*{checkPassword}"/>
+        <span id="errorCheckPassword" class="errors-text" th:if="${#fields.hasErrors('checkPassword')!=true}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('checkPassword')}" th:errors="*{checkPassword}"></span>
+
+        <div class="form-buttons">
+            <input class="form-button-submit" type="submit" th:value="#{register.register}"/>
+            <p id="errorsSummary" class="errors-text"></p>
+            <!--<span th:if="${param.error}" >Invalid username or password</span>
+            <span th:if="${param.logout}" >You have been logged out</span>-->
+            <!--<span class="errors-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+        </div>
+
+    </form>
+
+</main>
+
+<footer>
+    <p>Kacper Padarz s18535</p>
+</footer>
+</body>
+</html>

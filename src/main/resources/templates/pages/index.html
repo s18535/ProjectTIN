@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>TeamLider - Strona Główna</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@1,500&family=Changa+One&family=Comfortaa:wght@500&family=IBM+Plex+Sans:ital@1&family=Lora:ital,wght@1,600&family=Roboto+Mono:ital@1&family=Syne+Mono&family=Titan+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap:ital,wght@1,500&family=Changa+One&family=Comfortaa:wght@500&family=IBM+Plex+Sans:ital@1&family=Roboto+Mono:ital@1&family=Syne+Mono&family=Titan+One&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+    <li><a th:href="@{?lang=en}">
+        <img th:src="@{/images/US.png}" width="60"height="60"/>
+    </a></li>
+    <li><a th:href="@{?lang=pl}">
+        <img th:src="@{/images/PL.png}" width="60"height="60"/>
+    </a></li>
+    </ul>
+
+    <img src="images/logo2.png" alt="TeamLider Logo" width="150" height="150">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="" class="active" th:text="#{lang.li.home}"></a></li>
+        <li><a href="/players" th:text="#{lang.li.players}" sec:authorize="hasAnyAuthority('USER','ADMIN')"></a></li>
+        <li><a href="/teams" th:text="#{lang.li.teams}" sec:authorize="hasAnyAuthority('USER','ADMIN')"></a></li>
+        <li><a href="/assigntos" th:text="#{lang.li.assignsto}" sec:authorize="hasAnyAuthority('USER','ADMIN')"></a></li>
+        <li><a href="/sign_up" th:text="#{lang.li.rejestartion}" sec:authorize="!isAuthenticated()"></a></li>
+        <li><a href="/login" th:text="#{lang.li.sig_up}" sec:authorize="!isAuthenticated()"></a></li>
+        <li><a href="javascript: document.logoutForm.submit()" role="menuitem" th:text="#{lang.li.logout}" sec:authorize="isAuthenticated()"></a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form> </li>
+        <!--<li><a th:href="@{?lang=en}">Ang</a></li>
+        <li><a th:href="@{?lang=pl}">Pol</a></li>-->
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{lang.home}"></h2>
+    <p th:text="#{lang.home.description}"></p>
+</main>
+<footer>
+    <p>Kacper Padarz s18535</p>
+
+</footer>
+</body>
+</html>

@@ -1,0 +1,363 @@
+html {
+    background-color: #f4f7da;
+    font-family: sans-serif;
+}
+body {
+    /*min-width: 600px;*/
+    min-width: 360px;
+}
+header,
+main,
+footer {
+    background-color: white;
+}
+header,
+main,
+footer,
+nav {
+    margin: 2rem;
+}
+header,
+footer {
+    background-color: #75d466;
+    color: white;
+    padding: 2rem;
+}
+header {
+    /*overflow: auto;*/
+    border-style: inset;
+    border-width: 5px;
+    border-color: #f5dd9a;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+footer {
+    overflow: auto;
+    border-style: groove;
+    border-width: 5px;
+    border-color: #b7f7b2;
+    border-radius: 10px;
+}
+header h1 {
+    /*float: left;*/
+    /*font-size: 50px;*/
+    font-family: 'Roboto Mono', monospace;
+    font-family: 'Syne Mono', monospace;
+}
+.cover {
+    object-fit: cover;
+}
+
+/*header img {
+    float: right;
+}*/
+nav {
+    background-color: #bdc3c7;
+}
+nav ul {
+    display: flex;
+    padding: 0;
+    /*overflow: hidden;*/
+    list-style-type: none;
+}
+/*nav ul li {
+    float: left;
+}*/
+nav ul li a {
+    display: inline-block;
+    color: #2c3e50;
+    padding: 1rem 2rem;
+    text-decoration: none;
+}
+nav ul li a:hover {
+    background-color: #f02711;
+    color: #ecf0f1;
+}
+nav ul li a.active {
+    background-color: #54504f;
+    color: #ecf0f1;
+}
+main {
+    padding: 1.4rem;
+}
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin: 1rem;
+}
+/*list grczy*/
+main h2 {
+    border-bottom: 1px solid #7f8c8d;
+    margin-bottom: 2rem;
+}
+.table-list {
+    border-collapse: collapse;
+    color:#2c3e50;
+    width: 100%;
+}
+.table-list,
+.table-list th,
+.table-list td {
+    border: 1px solid #666c75;
+}
+.table-list th,
+.table-list td {
+    padding: 0.5rem;
+}
+.table-list th,
+.table-list tbody tr:nth-child(even) {
+    background-color: #dbd7d7;
+}
+.table-list-actions {
+    margin: 0;
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+}
+.table-list-actions li {
+    display: inline-block;
+}
+.list-actions-button-details,
+.list-actions-button-edit,
+.list-actions-button-delete {
+    display: inline-block;
+    width: 75px;
+    padding: 0.25rem 0.5rem;
+}
+.list-actions-button-details,
+.list-actions-button-edit,
+.list-actions-button-delete,
+.button-add,
+.button-return,
+.form-button-submit,
+.form-button-cancel,
+.form-button-edit{
+    border: none;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.8rem;
+}
+.list-actions-button-details,
+.list-actions-button-edit {
+    margin-right: 1rem;
+}
+/*Przycisk Szcegół*/
+.button-return,
+.list-actions-button-details {
+    background-color: #2980b9;
+}
+.button-return:hover,
+.list-actions-button-details:hover {
+    background-color: #3498db;
+}
+/*Przycisk Edycja*/
+
+.form-button-edit,
+.list-actions-button-edit {
+    background-color: #f39c12;
+}
+.form-button-edit:hover,
+.list-actions-button-edit:hover {
+    background-color: #f1c40f;
+}
+/*Przycisk Usuń*/
+
+.form-button-cancel,
+.list-actions-button-delete {
+    background-color: #c0392b;
+}
+
+.form-button-cancel:hover,
+.list-actions-button-delete:hover {
+    background-color: #e74c3c;
+}
+.button-add,
+.button-return,
+.form-button-submit,
+.form-button-cancel,
+.form-button-edit
+{
+    padding: 0.5rem 1rem;
+}
+.button-add,
+.form-button-submit
+{
+    background-color: #27ae60;
+}
+
+.button-add:hover,
+.form-button-submit:hover
+{
+    background-color: #2ecc71;
+}
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+textarea {
+    overflow: auto;
+}
+.form {
+    margin-left: 2rem;
+    display: grid;
+    /*grid-template-columns: 155px 300px;*/
+    grid-template-columns: 150px 300px 1fr;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    /*width: 300px;*/
+}
+.form select,
+.form input[type="text"],
+.form input[type="number"],
+.form input[type="date"],
+.form input[type="email"],
+.form input[type="password"],
+.form textarea{
+    border: 1px solid #7f8c8d;
+    color:#2c3e50;
+    border-radius: 5px;
+    padding: 0.5rem;
+    width: 100%;
+}
+.form label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+.form-group {
+    /*display: flex;*/
+    margin-bottom: 1rem;
+}
+abbr {
+    color: #c0392b;
+}
+.form-buttons{
+    margin-top: 2rem;
+    /*grid-column-start: 1;*/
+    grid-column-end: -1;
+    grid-column: 1 / span 2;
+}
+.form-button-submit,
+.form-button-cancel,
+.form-button-edit{
+    width: 100%;
+}
+.form-button-cancel {
+    box-sizing: border-box;
+    display: block;
+}
+
+.form-button-submit {
+    margin-bottom: 0.5rem;
+}
+.form-button-edit {
+    margin-bottom: 0.5rem;
+}
+@media all and (max-width: 720px) {
+    header {
+        flex-direction: column;
+    }
+    header h1 {
+        text-align: center;
+    }
+    header img {
+        align-self: center;
+    }
+    nav ul {
+        flex-wrap: wrap;
+    }
+
+    nav ul li {
+        flex-basis: 50%;
+        text-align: center;
+    }
+
+    nav ul li a {
+        display: block;
+    }
+    .form {
+        grid-template-columns: 1fr;
+        row-gap:unset;
+        margin-left: unset;
+    }
+
+    /*.form input[type="text"],
+    .form input[type="number"],
+    .form input[type="date"],
+    .form select {
+        margin-bottom: 1rem;
+    }*/
+    .form .errors-text {
+        margin-bottom: 1rem;
+    }
+    .form-buttons {
+        grid-column: 1 / span 1;
+    }
+}
+@media all and (max-width: 400px) {
+    body,
+    nav,
+    nav ul,
+    header,
+    main,
+    footer {
+        margin: 0;
+    }
+    nav ul li {
+        flex-basis: 100%;
+    }
+}
+.font-small{
+    font-family: 'Asap', sans-serif;
+    font-family: 'Changa One', cursive;
+    font-family: 'Comfortaa', cursive;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Lora', serif;
+    font-family: 'Roboto Mono', monospace;
+    font-family: 'Syne Mono', monospace;
+    font-family: 'Titan One', cursive;
+}
+
+.font-big{
+    font-family: 'Asap', sans-serif;
+    font-family: 'Changa One', cursive;
+    font-family: 'Comfortaa', cursive;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Roboto Mono', monospace;
+    font-family: 'Syne Mono', monospace;
+    font-family: 'Titan One', cursive;
+}
+
+.errors-text {
+    font-size: 0.85em;
+    line-height: 2.25rem;
+    color: red;
+}
+
+.form input.error-input,
+.form select.error-input,
+.form textarea.error-input{
+    border: 3px solid #e74c3c
+}
+ ul.ppt {
+    position: relative;
+    list-style:none;
+    display:inline-block;
+    padding:0;
+    margin:0
+}
+/*
+main form span{
+    color: #e74c3c;
+}
+*/

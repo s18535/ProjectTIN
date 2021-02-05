@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <script type="application/javascript" th:src="@{/js/validationCommon.js}"></script>
+    <script type="application/javascript" th:src="@{/js/validationPlayerForm.js}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamLider - FormPLayer</title>
+</head>
+<body>
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+        <li><a th:href="@{?lang=en}" id="link">
+            <img th:src="@{/images/US.png}" width="60"height="60"/>
+        </a></li>
+        <li><a th:href="@{?lang=pl}">
+            <img th:src="@{/images/PL.png}" width="60"height="60"/>
+        </a></li>
+    </ul>
+    <img src="images/logo2.png" alt="TeamLider Logo " width="150" height="150">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap"
+          rel="stylesheet">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" th:text="#{lang.home}"></a></li>
+        <li><a href="/players"class="active" th:text="#{lang.li.players}"></a></li>
+        <li><a href="/teams" th:text="#{lang.li.teams}"></a></li>
+        <li><a href="/assigntos" th:text="#{lang.li.assignsto}"></a></li>
+        <!--<li><a href="/login">Zaloguj się</a></li>-->
+        <li><a href="javascript: document.logoutForm.submit()" role="menuitem" th:text="#{lang.li.logout}" sec:authorize="isAuthenticated()"></a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form> </li>
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{player.new}"></h2>
+    <span hidden th:text="#{error.required}" id="filedrequired"></span>
+    <span hidden th:text="#{error.size.name}" id="errorSizeName"></span>
+    <span hidden th:text="#{error.size.email}" id="errorSizeEmail"></span>
+    <span hidden th:text="#{error.size.email.scructure}" id="errorSizeEmailScru"></span>
+    <span hidden th:text="#{error.size.phone}" id="errorSizePhone"></span>
+    <span hidden th:text="#{error.email.scructure}" id="errorEmailScructure"></span>
+    <span hidden th:text="#{error.forms}" id="errorForms"></span>
+    <form class="form" id="myForm" th:object="${player}" th:action="@{/players}" method="post"novalidate onsubmit="return validatePlayerForm();" >
+        <!--<div class="form-group">-->
+        <label for="firstName"><span th:text="#{player.name}"></span><abbr>*</abbr></label>
+        <input type="text" th:if="${#fields.hasErrors('firstName')!=true}" name="firstName" id="firstName" th:placeholder="#{placeholder.name}" th:field="*{firstName}"/>
+        <input class="error-input" type="text" th:if="${#fields.hasErrors('firstName')}"  name="firstName" id="firstName1" th:placeholder="#{placeholder.name}" th:field="*{firstName}"/>
+        <span id="errorFirstName" class="errors-text" th:if="${#fields.hasErrors('firstName')!=true}" th:value="${default}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="lastName"><span th:text="#{player.surname}"></span><abbr>*</abbr></label>
+        <input type="text" th:if="${#fields.hasErrors('lastName')!=true}" name="lastName" id="lastName" th:placeholder="#{placeholder.name}" th:field="*{lastName}"/>
+        <input class="error-input" type="text" th:if="${#fields.hasErrors('lastName')}" name="lastName" id="lastName1" th:placeholder="#{placeholder.name}" th:field="*{lastName}"/>
+        <span id="errorLastName" class="errors-text" th:if="${#fields.hasErrors('lastName')!=true}" th:value="${default}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="email"><span th:text="#{player.email}"></span><abbr>*</abbr></label>
+        <input type="email" th:if="${#fields.hasErrors('email')!=true}" name="email" id="email" th:placeholder="#{placeholder.email}" th:field="*{email}"/>
+        <input class="error-input" type="email" th:if="${#fields.hasErrors('email')}" name="email" id="email1" th:placeholder="#{placeholder.email}" th:field="*{email}"/>
+        <span id="errorEmail" class="errors-text" th:if="${#fields.hasErrors('email')!=true}" th:value="${default}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="phoneNumber"><span th:text="#{player.phone}"></span><abbr>*</abbr></label>
+        <input type="text" th:if="${#fields.hasErrors('phoneNumber')!=true}" name="phoneNumber" id="phoneNumber" th:placeholder="#{placeholder.phone}" th:field="*{phoneNumber}"/>
+        <input class="error-input" type="text" th:if="${#fields.hasErrors('phoneNumber')}" name="phoneNumber" id="phoneNumber1" th:placeholder="#{placeholder.phone}" th:field="*{phoneNumber}"/>
+        <span id="errorPhoneNumber" class="errors-text" th:if="${#fields.hasErrors('phoneNumber')!=true}" th:value="${default}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+        <!--</div>-->
+        <!-- <div class="form-group">-->
+        <label for="dateOfBirth"><span th:text="#{player.bith}"></span><abbr>*</abbr></label>
+        <input type="date" th:if="${#fields.hasErrors('dateOfBirth')!=true}" name="dateOfBirth" id="dateOfBirth" th:field="*{dateOfBirth}"/>
+        <input class="error-input" type="date" th:if="${#fields.hasErrors('dateOfBirth')}" name="dateOfBirth" id="dateOfBirth1" th:field="*{dateOfBirth}"/>
+        <span id="errorDateOfBirth" class="errors-text" th:if="${#fields.hasErrors('dateOfBirth')!=true}" th:value="${default}"></span>
+        <span class="errors-text" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" ></span>
+        <!-- pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}"-->
+        <!-- </div>-->
+
+        <div class="form-buttons">
+            <input class="form-button-submit" type="submit" th:value="#{action.add}"/>
+            <p id="errorsSummary" class="errors-text"></p>
+            <!--<span class="errors-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+            <a class="form-button-cancel" href="/players" th:text="#{action.cancle}"></a>
+        </div>
+    </form>
+</main>
+
+<footer>
+    <p>Kacper Padarz s18535</p>
+</footer>
+</body>
+</html>

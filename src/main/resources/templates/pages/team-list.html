@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamLider - Lista Drużyn</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+        <li><a th:href="@{?lang=en}">
+            <img th:src="@{/images/US.png}" width="60"height="60"/>
+        </a></li>
+        <li><a th:href="@{?lang=pl}">
+            <img th:src="@{/images/PL.png}" width="60"height="60"/>
+        </a></li>
+    </ul>
+    <img src="images/logo2.png" alt="TeamLider Logo" width="150" height="150">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" th:text="#{lang.li.home}"></a></li>
+        <li><a href="/players" th:text="#{lang.li.players}"></a></li>
+        <li><a href="/teams"class="active" th:text="#{lang.li.teams}"></a></li>
+        <li><a href="/assigntos" th:text="#{lang.li.assignsto}"></a></li>
+        <!--<li><a href="/login">Zaloguj się</a></li>-->
+        <li><a href="javascript: document.logoutForm.submit()" role="menuitem" th:text="#{lang.li.logout}" sec:authorize="isAuthenticated()"></a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form> </li>
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{team.list}"></h2>
+
+    <table class="table-list">
+        <thead>
+        <tr>
+            <th th:text="#{team.name}"></th>
+            <th th:text="#{team.age}"></th>
+            <th th:text="#{team.dateto}"></th>
+            <th th:text="#{action}"></th>
+        </tr>
+        </thead>
+        <tbody th:each="team : ${teams}" sec:authorize="hasAuthority('ADMIN')">
+        <tr>
+            <td th:text="${team.getTeamName()}"></td>
+            <td th:text="${team.getMinAge()}"></td>
+            <td th:text="${team.getDateTo()}"></td>
+            <td>
+                <ul class="table-list-actions">
+                    <li>
+                        <a th:href="${'team?id='+team.getIdTeam()}"class="list-actions-button-details" th:text="#{action.delete}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/team/edit/{id}(id=${team.getIdTeam()})}"class="list-actions-button-edit" th:text="#{action.edit}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/team/delete/{id}(id=${team.getIdTeam()})}"class="list-actions-button-delete" th:text="#{action.delete}"></a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+
+        <tbody th:each="team : ${teamsUser}" sec:authorize="hasAuthority('USER')">
+        <tr>
+            <td th:text="${team.getTeamName()}"></td>
+            <td th:text="${team.getMinAge()}"></td>
+            <td th:text="${team.getDateTo()}"></td>
+            <td>
+                <ul class="table-list-actions">
+                    <li>
+                        <a th:href="${'team?id='+team.getIdTeam()}"class="list-actions-button-details" th:text="#{action.details}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/team/edit/{id}(id=${team.getIdTeam()})}"class="list-actions-button-edit" th:text="#{action.edit}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/team/delete/{id}(id=${team.getIdTeam()})}"class="list-actions-button-delete"
+                           sec:authorize="hasAnyAuthority('ADMIN')" th:text="#{action.delete}"></a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <p><a href="/newteam" class="button-add" th:text="#{team.add}"></a></p>
+</main>
+
+
+<footer>
+    <p>Kacper Padarz s18535</p>
+</footer>
+</body>
+</html>

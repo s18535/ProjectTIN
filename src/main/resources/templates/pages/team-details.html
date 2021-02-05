@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <script type="application/javascript" th:src="@{/js/validationCommon.js}"></script>
+    <script type="application/javascript" th:src="@{/js/validationTeamForm.js}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamLider - Szczegóły Drużyn</title>
+</head>
+<body>
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+        <li><a th:href="@{?lang=en}">
+            <img th:src="@{/images/US.png}" width="60"height="60"/>
+        </a></li>
+        <li><a th:href="@{?lang=pl}">
+            <img th:src="@{/images/PL.png}" width="60"height="60"/>
+        </a></li>
+    </ul>
+    <img src="images/logo2.png" alt="TeamLider Logo " width="150" height="150">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap"
+          rel="stylesheet">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" th:text="#{lang.li.home}"></a></li>
+        <li><a href="/players" th:text="#{lang.li.players}"></a></li>
+        <li><a href="/teams"class="active" th:text="#{lang.li.teams}"></a></li>
+        <li><a href="/assigntos" th:text="#{lang.li.assignsto}"></a></li>
+        <!--<li><a href="/login">Zaloguj się</a></li>-->
+        <li><a href="javascript: document.logoutForm.submit()" role="menuitem" th:text="#{lang.li.logout}" sec:authorize="isAuthenticated()"></a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form> </li>
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{team.details}"></h2>
+
+    <form class="form">
+        <!-- <div class="form-group">-->
+        <label for="TeamName" th:text="#{team.nameteam}"></label>
+        <input type="text" name="TeamName" th:value="${team.getTeamName()}" id="TeamName" disabled/>
+        <span id="errorTeamName" class="errors-text"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="Description" th:text="#{team.description}"></label>
+        <!--<input type="text" name="Description" value="hiszpańska organizacja e-sportowa" id="Description"disabled/>-->
+        <textarea cols="30" rows="8" name="Description" id="Description" th:text="${team.getDescription()}"
+                  disabled></textarea>
+        <span id="errorDescription" class="errors-text"></span>
+        <!-- </div>-->
+        <!-- <div class="form-group">-->
+        <label for="MinAge" th:text="#{team.age}"></label>
+        <input type="number" name="MinAge" th:value="${team.getMinAge()}" id="MinAge" disabled/>
+        <span id="errorMinAge" class="errors-text"></span>
+        <!--</div>-->
+        <!-- <div class="form-group">-->
+        <label for="DataZałoeżenia" th:text="#{team.dateto}"></label>
+        <input type="text" name="DataZałoeżenia" th:value="${team.getDateTo()}" id="DataZałoeżenia" disabled/>
+        <span id="errorDateTo" class="errors-text"></span>
+        <!-- </div>-->
+
+    </form>
+    <div class="form-buttons">
+        <a th:href="@{/team/edit/{id}(id=${team.getIdTeam()})}" class="form-button-edit" th:text="#{action.edit}"></a>
+    </div>
+    <h2 th:text="#{assign.details}"></h2>
+
+    <table class="table-list">
+        <thead>
+        <tr>
+            <th th:text="#{player.name}"></th>
+            <th th:text="#{player.surname}"></th>
+            <th th:text="#{assign.dateform}"></th>
+            <th th:text="#{assign.dateto}"></th>
+        </tr>
+        </thead>
+        <tbody th:each="teamInPlayer : ${teamInPlayers}">
+        <tr>
+            <td th:text="${teamInPlayer.getFirstName()}"></td>
+            <td th:text="${teamInPlayer.getLastName()}"></td>
+            <td th:text="${teamInPlayer.getDateFrom()}"></td>
+            <td th:text="${teamInPlayer.getDateTo()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="form-buttons">
+        <a href="/teams" class="button-return" th:text="#{action.return}"></a>
+    </div>
+</main>
+
+<footer>
+    <p>Kacper Padarz s18535</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <script type="application/javascript" th:src="@{/js/validationCommon.js}"></script>
+    <script type="application/javascript" th:src="@{/js/validationPlayerForm.js}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamLider - Szczegóły Gracza</title>
+</head>
+<body>
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+        <li><a th:href="@{?lang=en}">
+            <img th:src="@{/images/US.png}" width="60"height="60"/>
+        </a></li>
+        <li><a th:href="@{?lang=pl}">
+            <img th:src="@{/images/PL.png}" width="60"height="60"/>
+        </a></li>
+    </ul>
+    <img src="images/logo2.png" alt="TeamLider Logo " width="150" height="150">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap"
+          rel="stylesheet">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" th:text="#{lang.home}"></a></li>
+        <li><a href="/players"class="active" th:text="#{lang.li.players}"></a></li>
+        <li><a href="/teams" th:text="#{lang.li.teams}"></a></li>
+        <li><a href="/assigntos" th:text="#{lang.li.assignsto}"></a></li>
+        <!--<li><a href="/login">Zaloguj się</a></li>-->
+        <li><a href="javascript: document.logoutForm.submit()" role="menuitem" th:text="#{lang.li.logout}" sec:authorize="isAuthenticated()"></a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form> </li>
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{player.details}"></h2>
+
+    <form class="form">
+        <!--<div class="form-group">-->
+        <label for="firstName" th:text="#{player.name}"></label>
+        <input type="text" name="firstName" th:value="${player.getFirstName()}" id="firstName" disabled/>
+        <span id="errorFirstName" class="errors-text"></span>
+        <!-- </div>-->
+        <!--<div class="form-group">-->
+        <label for="lastName" th:text="#{player.surname}"></label>
+        <input type="text" name="lastName" th:value="${player.getLastName()}" id="lastName" disabled/>
+        <span id="errorLastName" class="errors-text"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="Email"th:text="#{player.email}"></label>
+        <input type="email" name="Email" th:value="${player.getEmail()}" id="Email" disabled/>
+        <span id="errorEmail" class="errors-text"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="NumerTelefonu"th:text="#{player.phone}"></label>
+        <input type="text" name="NumerTelefonu" th:value="${player.getPhoneNumber()}" id="NumerTelefonu" disabled/>
+        <span id="errorPhoneNumber" class="errors-text"></span>
+        <!-- </div>-->
+        <!-- <div class="form-group">-->
+        <label for="DataUrodzenia" th:text="#{player.bith}"></label>
+        <input type="text" name="DataUrodzenia" th:value="${player.getDateOfBirth()}" id="DataUrodzenia" disabled/>
+        <span id="errorDateOfBirth" class="errors-text"></span>
+        <!--</div>-->
+    </form>
+    <div class="form-buttons">
+        <a th:href="@{/player/edit/{id}(id=${player.getIdPlayer()})}" class="form-button-edit" th:text="#{action.edit}"></a>
+    </div>
+    <h2 th:text="#{team.details}"></h2>
+
+    <table class="table-list">
+        <thead>
+        <tr>
+            <th th:text="#{team.team}"></th>
+            <th th:text="#{assign.shirt}"></th>
+            <th th:text="#{assign.dateform}"></th>
+            <th th:text="#{assign.dateto}"></th>
+        </tr>
+        </thead>
+        <tbody th:each="playerInTeam : ${playerInTeams}">
+        <tr>
+            <td th:text="${playerInTeam.getTeamName()}"></td>
+            <td th:text="${playerInTeam.getNumberOfShirt()}"></td>
+            <td th:text="${playerInTeam.getDateFrom()}"></td>
+            <td th:text="${playerInTeam.getDateTo()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="form-buttons">
+        <a href="/players" class="button-return" th:text="#{action.return}"></a>
+    </div>
+</main>
+
+<footer>
+    <p>Kacper Padarz s18535</p>
+</footer>
+</body>
+</html>

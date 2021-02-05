@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamLider - Szcegóły zatrudnionych graczy</title>
+</head>
+<body>
+<header>
+    <h1>TeamLider</h1>
+    <ul class="ppt">
+        <li><a th:href="@{?lang=en}">
+            <img th:src="@{/images/US.png}" width="60"height="60"/>
+        </a></li>
+        <li><a th:href="@{?lang=pl}">
+            <img th:src="@{/images/PL.png}" width="60"height="60"/>
+        </a></li>
+    </ul>
+    <img src="/images/logo2.png" alt="TeamLider Logo " width="150" height="150">
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@1&family=Syne+Mono&display=swap"
+          rel="stylesheet">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" th:text="#{lang.li.home}"></a></li>
+        <li><a href="/players" th:text="#{lang.li.players}"></a></li>
+        <li><a href="/teams" th:text="#{lang.li.teams}"></a></li>
+        <li><a href="/assigntos"class="active" th:text="#{lang.li.assignsto}"></a></li>
+        <!--<li><a href="/login">Zaloguj się</a></li>-->
+        <li><a href="javascript: document.logoutForm.submit()" role="menuitem" th:text="#{lang.li.logout}" sec:authorize="isAuthenticated()"></a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form> </li>
+    </ul>
+</nav>
+<main>
+    <h2 th:text="#{assign.details.assign}"></h2>
+
+    <form class="form">
+        <!--<div class="form-group">-->
+        <label for="chosePlayer" th:text="#{assign.chooseplayer}"></label>
+        <select name="chosePlayer" id="chosePlayer">
+            <!--<option value="Name1" selected disabled>Jan Kowalski</option>-->
+            <option th:value="${assignto.getPlayer().getIdPlayer()}" th:text="${assignto.getPlayer().getFirstName()+' '+assignto.getPlayer().getLastName()}"
+                    th:selected="${assignto.getPlayer().getIdPlayer()}" disabled></option>
+        </select>
+        <span id="errorChosePlayer" class="errors-text"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="choseTeam" th:text="#{assign.chooseteam}"></label>
+        <select name="choseTeam" id="choseTeam">
+            <!--<option value="Team1" selected disabled>G2</option>-->
+            <option th:value="${assignto.getTeam().getIdTeam()}" th:text="${assignto.getTeam().getTeamName()}"
+                    th:selected="${assignto.getTeam().getIdTeam()}" disabled></option>
+        </select>
+        <span id="errorChoseTeam" class="errors-text"></span>
+        <!-- </div>-->
+        <!-- <div class="form-group">-->
+        <label for="numOnShirt" th:text="#{assign.shirt}"></label>
+        <input type="number" name="numOnShirt" th:value="${assignto.getNumOfShirt()}" id="numOnShirt" disabled/>
+        <span id="errorNumOnShirt" class="errors-text"></span>
+        <!--</div>-->
+        <!--<div class="form-group">-->
+        <label for="dateFrom" th:text="#{assign.dateform}"></label>
+        <input type="date" name="dateFrom" th:value="${assignto.getDateFrom()}" id="dateFrom" disabled/>
+        <span id="errorDateFrom" class="errors-text"></span>
+        <!-- </div>-->
+        <!--<div class="form-group">-->
+        <label for="dateTo" th:text="#{assign.dateto}"></label>
+        <input type="date" name="dateTo" th:value="${assignto.getDateTo()}" id="dateTo" disabled/>
+        <span id="errorDateTo" class="errors-text"></span>
+        <!--</div>-->
+    </form>
+    <div class="form-buttons">
+        <a th:href="@{/assignto/edit/{idPlayer}/{idTeam}(idPlayer=${assignto.getPlayer().getIdPlayer()},idTeam=${assignto.getTeam().getIdTeam()})}" class="form-button-edit"
+        th:text="#{action.edit}"></a>
+        <a href="/assigntos" class="button-return" th:text="#{action.return}"></a>
+    </div>
+</main>
+
+<footer>
+    <p>Kacper Padarz s18535</p>
+</footer>
+</body>
+</html>
